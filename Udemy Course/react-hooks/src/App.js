@@ -4,10 +4,11 @@ import React, { Component, useState, useEffect } from 'react';
 const App = () => {
   // state
   const [news, setNews] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('react');
+  const [searchQuery, setSearchQuery] = useState("react");
+  const [url, setUrl] = useState(`https://hn.algolia.com/api/v1/search?query=react`);
   // fetch news
   const fetchNews = () => {
-    fetch(`https://hn.algolia.com/api/v1/search?query=${searchQuery}`)
+    fetch(url)
       .then(response => response.json())
       .then(data => setNews(data.hits))
       .catch(error => console.log(error));
@@ -15,16 +16,21 @@ const App = () => {
 
   useEffect(() => {
     fetchNews();
-  }, [searchQuery]);
+  }, [url]);
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setUrl(`https://hn.algolia.com/api/v1/search?query=${searchQuery}`);
+  }
+
   return (
     <div>
       <h2>News</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input type="text" placeholder="Search news" value={searchQuery} onChange={handleChange} />
         <button type="submit">Search</button>
       </form>
