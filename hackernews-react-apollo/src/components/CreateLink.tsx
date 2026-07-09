@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
 import type { TypedDocumentNode } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
+import { FEED_QUERY, type FeedData } from '../queries';
 
 type Link = {
   id: string;
@@ -53,6 +54,23 @@ const CreateLink = () => {
       variables: {
         description: formState.description,
         url: formState.url
+      },
+      update: (cache, { data }) => {
+        if (!data?.post) return;
+
+        const cachedData = cache.readQuery<FeedData>({ query: FEED_QUERY });
+
+        if (!cachedData?.feed) return;
+
+        cache.writeQuery({
+          query: FEED_QUERY,
+          data: {
+            feed: {
+              id: cachedData.feed.id,
+              links: [data.post, ...cachedData.feed.links]
+            }
+          },
+        });
       },
       onCompleted: () => navigate('/')
     });
