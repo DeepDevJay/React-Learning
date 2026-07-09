@@ -2,6 +2,7 @@ import { useState, type ChangeEvent, type SubmitEvent } from 'react';
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
 import type { TypedDocumentNode } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 
 type Link = {
   id: string;
@@ -36,6 +37,7 @@ const CREATE_LINK_MUTATION = gql`
 ` as TypedDocumentNode<CreateLinkData, CreateLinkVars>;
 
 const CreateLink = () => {
+  const navigate = useNavigate();
   const [formState, setFormState] = useState<FormState>({ description: '', url: '' });
   const [createLink] = useMutation(CREATE_LINK_MUTATION);
 
@@ -51,7 +53,8 @@ const CreateLink = () => {
       variables: {
         description: formState.description,
         url: formState.url
-      }
+      },
+      onCompleted: () => navigate('/')
     });
   };
 
