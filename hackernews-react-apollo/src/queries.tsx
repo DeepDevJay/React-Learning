@@ -17,32 +17,46 @@ export type FeedData = {
   feed: {
     id: string;
     links: LinkItem[];
+    count: number;
   };
 };
 
+export type LinkOrderByInput = {
+  description?: 'asc' | 'desc';
+  url?: 'asc' | 'desc';
+  createdAt?: 'asc' | 'desc';
+};
+
+export type FeedQueryVars = {
+  take?: number;
+  skip?: number;
+  orderBy?: LinkOrderByInput;
+};
+
 export const FEED_QUERY = gql`
-  query GetFeed {
-    feed {
+  query FeedQuery($take: Int, $skip: Int, $orderBy: LinkOrderByInput) {
+    feed(take: $take, skip: $skip, orderBy: $orderBy) {
       id
       links {
         id
         createdAt
         url
         description
+        postedBy {
+          id
+          name
+        }
         votes {
           id
           user {
             id
           }
         }
-        postedBy {
-          id
-          name
-        }
       }
+      count
     }
   }
-` as TypedDocumentNode<FeedData, Record<string, never>>;
+` as TypedDocumentNode<FeedData, FeedQueryVars>;
 
 export type SearchData = {
   search: LinkItem[];

@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import type { TypedDocumentNode } from '@apollo/client';
-import { AUTH_TOKEN } from '../constants';
+import { AUTH_TOKEN, LINKS_PER_PAGE } from '../constants';
 import { timeDifferenceForDate } from '../utils';
 import { useMutation } from '@apollo/client/react';
 import { FEED_QUERY, type FeedData, type LinkItem } from '../queries';
@@ -63,6 +63,9 @@ const VOTE_MUTATION = gql`
 
 const Link = ({ link, index }: LinkProps) => {
   const authToken = localStorage.getItem(AUTH_TOKEN);
+  const take = LINKS_PER_PAGE;
+  const skip = 0;
+  const orderBy = { createdAt: 'desc' };
 
   const [voteMutation] = useMutation(VOTE_MUTATION);
 
@@ -74,7 +77,7 @@ const Link = ({ link, index }: LinkProps) => {
       update: (cache, { data }) => {
         if (!data?.vote) return;
 
-        const cachedData = cache.readQuery<FeedData>({ query: FEED_QUERY });
+        const cachedData = cache.readQuery<FeedData>({ query: FEED_QUERY, variables: { take, skip, orderBy } });
 
         if (!cachedData?.feed) return;
 
@@ -88,13 +91,19 @@ const Link = ({ link, index }: LinkProps) => {
           return feedLink;
         });
 
-        cache.writeQuery({
+        cache.writeQuery<FeedData>({
           query: FEED_QUERY,
           data: {
             feed: {
               id: cachedData.feed.id,
-              links: updatedLinks
+              links: updatedLinks,
+              count: cachedData.feed.count,
             }
+          },
+          variables: {
+            take,
+            skip,
+            orderBy
           }
         });
       }

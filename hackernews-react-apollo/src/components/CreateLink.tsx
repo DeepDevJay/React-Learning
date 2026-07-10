@@ -10,6 +10,16 @@ type Link = {
   createdAt: string;
   url: string;
   description: string;
+  postedBy: {
+    id: string;
+    name: string;
+  } | null;
+  votes: {
+    id: string;
+    user: {
+      id: string;
+    };
+  }[];
 };
 
 type CreateLinkData = {
@@ -33,6 +43,16 @@ const CREATE_LINK_MUTATION = gql`
       createdAt
       url
       description
+      postedBy {
+        id
+        name
+      }
+      votes {
+        id
+        user {
+          id
+        }
+      }
     }
   }
 ` as TypedDocumentNode<CreateLinkData, CreateLinkVars>;
@@ -67,8 +87,9 @@ const CreateLink = () => {
           data: {
             feed: {
               id: cachedData.feed.id,
-              links: [data.post, ...cachedData.feed.links]
-            }
+              links: [data.post, ...cachedData.feed.links],
+              count: cachedData.feed.count + 1,
+            },
           },
         });
       },
