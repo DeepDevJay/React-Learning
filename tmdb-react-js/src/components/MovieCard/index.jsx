@@ -11,17 +11,26 @@ export default function MovieCard({ movie }) {
   return (
     <Card
       hoverable
-      cover={ <img src={movie.imageUrl} alt={movie.title} style={{ height: 320, objectFit: "cover" }} /> }
       onClick={() => navigate(`/movies-card/${movie.id}`)}
+      cover={
+        <img alt={movie.title} src={movie.imageUrl} style={{ height: 320, objectFit: "cover", }} />
+      }
     >
       <Card.Meta title={movie.title} />
+      <div style={{ marginTop: 16 }} >
+        <Rate
+          disabled
+          allowHalf
+          value={movie.voteAverage / 2}
+        />
 
-      <div style={{ marginTop: 12 }}>
-        <Rate disabled allowHalf value={movie.voteAverage / 2} />
+        <br />
 
-        <div style={{ marginTop: 8 }}>
-          <Tag color="gold">⭐ {movie.voteAverage}</Tag>
-        </div>
+        <Tag color="gold" style={{ marginTop: 10 }} >
+          ⭐ {movie.voteAverage}
+        </Tag>
+
+        <br />
 
         <Text type="secondary">
           <CalendarOutlined />{" "}

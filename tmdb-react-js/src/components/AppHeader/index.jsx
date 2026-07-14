@@ -17,11 +17,11 @@ export default function AppHeader() {
     },
     {
       key: "/movies-card",
-      label: <Link to="/movies-card">Movies Card</Link>,
+      label: <Link to="/movies-card">Movies</Link>,
     },
     {
       key: "/person-list",
-      label: <Link to="/person-list">Person List</Link>,
+      label: <Link to="/person-list">Persons</Link>,
     },
   ];
 

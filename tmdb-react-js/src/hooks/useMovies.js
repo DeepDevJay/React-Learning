@@ -1,3 +1,4 @@
+// src/hooks/useMovies.js
 import { useQuery } from "@apollo/client/react";
 import { GET_MOVIES } from "../graphql/movies/queries";
 
@@ -8,5 +9,6 @@ export default function useMovies(filter, sort) {
       sort,
     },
     notifyOnNetworkStatusChange: true,
+    fetchPolicy: "cache-and-network",
   });
 }
