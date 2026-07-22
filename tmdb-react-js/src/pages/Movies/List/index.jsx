@@ -9,7 +9,7 @@ import MovieFilters from "./MovieFilters";
 
 import useMovies from "../../../hooks/useMovies";
 import LoadingCards from "../../../components/Common/LoadingCards";
-import MovieCard from "../../../components/MovieCard";
+import MovieCard from "../../../components/Movies/MovieCard";
 import PageLoader from "../../../components/Common/PageLoader";
 
 const { Title } = Typography;
@@ -71,7 +71,7 @@ export default function MovieList() {
   }, [debouncedSearch, filters, sort]);
 
   // Movies Query
-  const { loading, error, data, fetchMore, networkStatus } = useMovies(filter, sort);
+  const { loading, error, data, fetchMore } = useMovies(filter, sort);
 
   // Movie Data
   const movies = data?.listMovies?.data ?? [];

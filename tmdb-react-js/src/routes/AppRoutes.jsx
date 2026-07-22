@@ -2,12 +2,14 @@ import { Routes, Route } from "react-router-dom";
 
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
-import Persons from "../pages/Persons";
+// import Persons from "../pages/Persons";
 
 import MainLayout from "../layouts/MainLayout";
 import ProtectedRoute from "../components/ProtectedRoute";
 import MovieList from "../pages/Movies/List";
 import MovieDetail from "../pages/Movies/Detail";
+import CreateMovie from "../pages/Movies/Form/CreateMovie";
+import EditMovie from "../pages/Movies/Form/EditMovie";
 
 export default function AppRoutes() {
   return (
@@ -21,12 +23,12 @@ export default function AppRoutes() {
           <Route path="movies-card">
             <Route index element={<MovieList />} />
             <Route path=":movieId" element={<MovieDetail />} />
-            {/* <Route path="create" element={<MovieFormPage />} />
-            <Route path=":movieId/edit" element={<MovieFormPage />} /> */}
+            <Route path="create" element={<CreateMovie />} />
+            <Route path=":movieId/edit" element={<EditMovie />} />
           </Route>
 
           <Route path="person-list">
-            <Route index element={<Persons />} />
+            {/* <Route index element={<Persons />} /> */}
             {/* Create, Edit routes will go here */}
           </Route>
         </Route>

@@ -1,11 +1,13 @@
 import { useQuery } from "@apollo/client/react";
+
 import { GET_MOVIE } from "../graphql/movies/queries";
 
-export default function useMovie(movieId) {
+export default function useMovie(id) {
   return useQuery(GET_MOVIE, {
     variables: {
-      movieId,
+      id,
     },
-    skip: !movieId,
+    skip: !id,
+    fetchPolicy: "cache-and-network",
   });
 }

@@ -1,6 +1,6 @@
 import { Row, Col, Typography, Empty, Skeleton } from "antd";
 
-import MovieCard from "../../components/MovieCard";
+import MovieCard from "../../components/Movies/MovieCard";
 import useMovies from "../../hooks/useMovies";
 
 const { Title } = Typography;
